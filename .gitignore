@@ -9,4 +9,5 @@ server/config/secret.js
 public/upload/
 logs/
 dist/
+backup_data/
 .cache
