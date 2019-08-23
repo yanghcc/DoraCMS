@@ -1,24 +1,14 @@
-
-/**
- * 过滤url中的非法请求
- */
-const url = require('url');
-
-
+const url = require('url')
+// 过滤url中的非法请求
 module.exports = (req, res, next) => {
-
-    let oldParams = url.parse(req.url).search;
-    let deCodeParams = decodeURIComponent(oldParams);
-    if (/[ <>@$^*()*]/.test(deCodeParams)) {
-        console.log('包含特殊字符，不允许访问!');
-        var pattern = new RegExp("[ <>@$^*()/*]");
-        var newParams = "";
-        for (var i = 0; i < deCodeParams.length; i++) {
-            newParams += deCodeParams.substr(i, 1).replace(pattern, '');
-        }
-        res.redirect(url.parse(req.url).pathname + newParams);
-    } else {
-        next();
-    }
-
+  let {search, pathname} = url.parse(req.url)
+  let deCodeParams = decodeURIComponent(search)
+  let reg = /[ <>@$^*()*]/g
+  if (reg.test(deCodeParams)) {
+    console.log('包含特殊字符，不允许访问!')
+    let newParams = deCodeParams.replace(reg, '')
+    res.redirect(pathname + newParams)
+  } else {
+    next()
+  }
 }
