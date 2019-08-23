@@ -1,73 +1,41 @@
-/*
- * @Author: doramart 
- * @Date: 2019-06-24 13:20:49 
- * @Last Modified by: doramart
- * @Last Modified time: 2019-07-13 01:32:31
- */
-
-
-'use strict';
-
-const {
-    DataOptionLog
-} = require('../models/index');
+const { DataOptionLog } = require('../models/index')
 const _ = require('lodash')
-const {
-    _list,
-    _item,
-    _count,
-    _create,
-    _update,
-    _removes,
-    _safeDelete
-} = require('./general');
-
+const { _list, _item, _count, _create, _update, _removes, _safeDelete } = require('./general')
 
 class DataOptionLogService {
+  async find(payload, { query = {}, searchKeys = [], populate = [], files = null } = {}) {
+    let listdata = _list(DataOptionLog, payload, {
+      query,
+      searchKeys,
+      populate,
+      files
+    })
+    return listdata
+  }
 
-    async find(payload, {
-        query = {},
-        searchKeys = [],
-        populate = [],
-        files = null
-    } = {}) {
+  async count(params = {}) {
+    return _count(DataOptionLog, params)
+  }
 
-        let listdata = _list(DataOptionLog, payload, {
-            query: query,
-            searchKeys: searchKeys,
-            populate: populate,
-            files
-        });
-        return listdata;
+  async create(payload) {
+    return _create(DataOptionLog, payload)
+  }
 
-    }
+  async removes(res, values, key = '_id') {
+    return _removes(res, DataOptionLog, values, key)
+  }
 
+  async safeDelete(res, values) {
+    return _safeDelete(res, DataOptionLog, values)
+  }
 
-    async count(params = {}) {
-        return _count(DataOptionLog, params);
-    }
+  async update(res, _id, payload) {
+    return _update(res, DataOptionLog, _id, payload)
+  }
 
-    async create(payload) {
-        return _create(DataOptionLog, payload);
-    }
-
-    async removes(res, values, key = '_id') {
-        return _removes(res, DataOptionLog, values, key);
-    }
-
-    async safeDelete(res, values) {
-        return _safeDelete(res, DataOptionLog, values);
-    }
-
-    async update(res, _id, payload) {
-        return _update(res, DataOptionLog, _id, payload);
-    }
-
-    async item(res, params = {}) {
-        return _item(res, DataOptionLog, params)
-    }
-
-
+  async item(res, params = {}) {
+    return _item(res, DataOptionLog, params)
+  }
 }
 
-module.exports = new DataOptionLogService();
+module.exports = new DataOptionLogService()
